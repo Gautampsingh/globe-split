@@ -1,4 +1,4 @@
-# FuturaSplit
+# GlobeSplit
 
 An Angular 18 standalone app scaffold with feature-based structure. Includes reactive expenses management, currency conversion, and local country flags.
 
@@ -52,7 +52,7 @@ npm run build
 ```
 
 Notes:
-- The dev server runs with Angular CLI. If start fails, ensure you’re in the project folder: `c:\Projects\Extras\futura-split\futura-split`.
+- The dev server runs with Angular CLI. If start fails, ensure you’re in the project folder: `c:\Projects\Extras\global-split`.
 - Add more flags by placing SVGs under `src/assets/flags` and mapping currency code → country code in the components.
 - Static FX rates are sample values; replace with live rates if needed.
 
@@ -67,3 +67,4 @@ Notes:
 - If you see “Can’t bind to 'ngModel'” errors, ensure `FormsModule` is imported in the standalone component.
 - For SPA deep-link issues, `index.html` includes `<base href="/">`.
 - Zone.js is imported in `main.ts` to avoid NG0908.
+
