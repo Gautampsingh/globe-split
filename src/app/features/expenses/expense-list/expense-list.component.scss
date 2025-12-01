@@ -1,0 +1,11 @@
+.convert-controls {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 10px;
+    button {
+        font-size: 1rem;
+        min-width: 130px;
+        height: 40px;
+    }
+}

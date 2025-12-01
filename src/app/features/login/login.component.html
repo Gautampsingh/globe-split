@@ -1,0 +1,46 @@
+<!-- <div class="login">
+  <h1>Sign in</h1>
+  <form (ngSubmit)="login()">
+    <label>Email</label>
+    <input type="email" [(ngModel)]="email" name="email" required />
+
+    <label>Password</label>
+    <input type="password" [(ngModel)]="password" name="password" required />
+
+    <button type="submit">Login</button>
+    <button type="button" (click)="requestAccess()" class="link">Request Access</button>
+  </form>
+</div> -->
+<div class="login-wrap">
+  <div class="card">
+    <h2>Welcome to FuturaSplit</h2>
+    <p class="small">Login to continue</p>
+
+    <form (ngSubmit)="login()" #f="ngForm" class="form-grid">
+      <div class="row">
+        <div class="cell label">Email <span class="req">*</span></div>
+        <div class="cell value">
+          <input type="email" name="email" [(ngModel)]="email" required #emailRef="ngModel" placeholder="you@example.com" />
+          <div class="field-error" *ngIf="f.submitted && emailRef.invalid">Valid email is required.</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="cell label">Password <span class="req">*</span></div>
+        <div class="cell value">
+          <input type="password" name="password" [(ngModel)]="password" required #passwordRef="ngModel" placeholder="••••••••" />
+          <div class="field-error" *ngIf="f.submitted && passwordRef.invalid">Password is required.</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="submit" [disabled]="f.invalid">Login</button>
+        <button type="button" (click)="requestAccess()">Request Access</button>
+      </div>
+    </form>
+
+    <p class="small note">
+      This is UI only (no backend yet). Authentication is mocked.
+    </p>
+  </div>
+</div>

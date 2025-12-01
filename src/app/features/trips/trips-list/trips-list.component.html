@@ -1,0 +1,7 @@
+<section>
+	<h2>Trips</h2>
+	<ul>
+		<li *ngFor="let trip of trips">{{ trip.name }}</li>
+	</ul>
+	<p *ngIf="trips.length === 0">No trips yet.</p>
+</section>

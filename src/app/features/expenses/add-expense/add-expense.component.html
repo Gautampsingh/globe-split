@@ -1,0 +1,57 @@
+<section class="add-expense">
+	<h2>Add Expense</h2>
+	<form (ngSubmit)="submit()" #f="ngForm" class="form-grid">
+		<div class="row">
+			<div class="cell label">ID</div>
+			<div class="cell value">
+				<input name="id" [(ngModel)]="id" placeholder="Auto if blank" />
+			</div>
+		</div>
+		<div class="row">
+			<div class="cell label">Title <span class="req">*</span></div>
+			<div class="cell value">
+				<input name="title" [(ngModel)]="title" required #titleRef="ngModel" />
+				<div class="field-error" *ngIf="f.submitted && titleRef.invalid">Title is required.</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="cell label">Description</div>
+			<div class="cell value">
+				<textarea name="description" [(ngModel)]="description" rows="3"></textarea>
+			</div>
+		</div>
+		<div class="row">
+			<div class="cell label">Date</div>
+			<div class="cell value">
+				<input name="date" type="date" [(ngModel)]="date" />
+			</div>
+		</div>
+		<div class="row">
+			<div class="cell label">Amount <span class="req">*</span></div>
+			<div class="cell value">
+				<input name="amount" type="number" step="0.01" [(ngModel)]="amount" required min="0" #amountRef="ngModel" />
+				<div class="field-error" *ngIf="f.submitted && amountRef.invalid">
+					Enter a valid amount (>= 0).
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="cell label">Currency <span class="req">*</span></div>
+			<div class="cell value">
+				<input name="currency" [(ngModel)]="currency" list="currencyList" required #currencyRef="ngModel" placeholder="Type to search..." />
+								<div class="currency-hint" *ngIf="currency">
+									<img *ngIf="flagUrl(currency) as url" [src]="url" [alt]="currency + ' flag'" width="24" height="18" />&nbsp;
+									<span style="position: relative;top: -3px;">{{ currency }}</span>
+								</div>
+				<datalist id="currencyList">
+					<option *ngFor="let c of filteredCurrencies" [value]="c.code">{{ c.flag }} {{ c.code }}</option>
+				</datalist>
+				<div class="field-error" *ngIf="f.submitted && currencyRef.invalid">Currency is required.</div>
+			</div>
+		</div>
+		<div class="actions">
+			<button type="submit" [disabled]="saving || f.invalid">Add</button>
+			<button type="button" (click)="cancel()">Cancel</button>
+		</div>
+	</form>
+</section>

@@ -1,0 +1,25 @@
+<section>
+	<h2>Expenses</h2>
+	<div class="toolbar">
+		<a routerLink="/expenses/add">Add Expense</a>
+		<div class="convert-controls">
+			<label>
+				<select [(ngModel)]="targetCurrency" [disabled]="!conversionEnabled">
+					<option *ngFor="let c of currencyCodes" [value]="c">{{ c }}</option>
+				</select>
+			</label>
+			<button type="button" (click)="toggleConversion()">
+				{{ conversionEnabled ? 'Show Original' : 'Convert' }}
+			</button>
+		</div>
+	</div>
+	<div class="grid">
+		<app-expense-card *ngFor="let e of (expenses$ | async)"
+			[title]="e.title"
+			[amount]="conversionEnabled ? getDisplayAmount(e) : e.amount"
+			[currency]="conversionEnabled ? targetCurrency : (e.currency || 'USD')"
+			[description]="e.description"
+			[date]="e.date"></app-expense-card>
+	</div>
+	<p *ngIf="(expenses$ | async)?.length === 0">No expenses recorded.</p>
+</section>

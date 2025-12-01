@@ -1,0 +1,12 @@
+.navbar{display:flex;gap:1rem;align-items:center;padding:.5rem 1rem;border-bottom:1px solid #e5e7eb;background:#fff}
+.spacer{flex:1}
+a{padding:.25rem .5rem;border-radius:4px;text-decoration:none;color:#111}
+a.active{
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    outline: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 10px 14px;
+    border-radius: 10px;
+}

@@ -1,0 +1,128 @@
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,'Noto Sans',sans-serif;background:#fafafa;color:#222}
+a{color:inherit}
+container{max-width:1200px;margin:0 auto;padding:0 1rem}
+/* Light Futuristic Theme */
+
+:root {
+  --bg: linear-gradient(180deg, #f5f8ff, #e9f2ff);
+  --card: #ffffff;
+  --muted: #6b7280;
+  --accent: #2dd4bf;
+  --accent2: #60a5fa;
+  --glass: rgba(255, 255, 255, 0.7);
+  --shadow: 0 6px 18px rgba(59, 130, 246, 0.08);
+  --radius: 12px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Inter, Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: #0f172a;
+}
+
+.app-shell {
+  max-width: 1200px;
+  margin: 28px auto;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  height: 44px;
+  width: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+}
+
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
+}
+
+.sidebar {
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.main {
+  display: flex;
+  gap: 18px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #0f172a;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.nav-link.active,
+.nav-link:hover {
+  background: rgba(96, 165, 250, 0.15);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #dce6f7;
+}
+
+button {
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  outline: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 10px 14px;
+  border-radius: 10px;
+}
+
+.trip-card {
+  border: 1px solid #dbeafe;
+  padding: 14px;
+  border-radius: 10px;
+}
+
+.expense-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px dashed #e5edff;
+}

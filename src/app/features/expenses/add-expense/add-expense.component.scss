@@ -1,0 +1,57 @@
+.form-grid {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 10px;
+}
+
+.cell.label {
+	flex: 1 1 140px;
+	color: #475569;
+}
+.req {
+	color: #ef4444;
+	margin-left: 4px;
+}
+
+.field-error {
+	margin-top: 6px;
+	color: #ef4444;
+	font-size: 0.85rem;
+}
+
+.currency-hint {
+	margin-top: 6px;
+	color: #0f172a;
+	font-size: 0.9rem;
+}
+
+.cell.value {
+	flex: 2 1 240px;
+}
+
+input, select, textarea, button {
+	width: 100%;
+	max-width: 100%;
+	padding: 8px 10px;
+	border: 1px solid #e2e8f0;
+	border-radius: 6px;
+	font-size: 1rem;
+}
+
+.actions {
+	display: flex;
+	justify-content: flex-end;
+}
+
+@media (min-width: 640px) {
+	.row {
+		flex-wrap: nowrap;
+	}
+}
