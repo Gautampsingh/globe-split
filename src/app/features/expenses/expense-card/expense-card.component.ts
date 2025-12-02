@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { CurrencyFormatPipe } from '../../../shared/pipes/currency-format.pipe';
 
@@ -15,6 +15,9 @@ export class ExpenseCardComponent {
 	@Input() currency = 'USD';
 	@Input() description?: string;
 	@Input() date?: string;
+	@Input() id?: string;
+	@Output() edit = new EventEmitter<string>();
+	@Output() delete = new EventEmitter<string>();
 
 	private currencyToFlag: Record<string, string> = {
 		USD: 'us', EUR: 'eu', GBP: 'gb', INR: 'in', JPY: 'jp',
@@ -31,4 +34,7 @@ export class ExpenseCardComponent {
 		const cc = this.currencyToFlag[currency] || '';
 		return cc ? `/assets/flags/${cc}.svg` : '';
 	}
+
+	onEdit() { if (this.id) this.edit.emit(this.id); }
+	onDelete() { if (this.id) this.delete.emit(this.id); }
 }

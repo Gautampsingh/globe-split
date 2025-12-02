@@ -1,7 +1,144 @@
-<section>
-	<h2>Trips</h2>
-	<ul>
-		<li *ngFor="let trip of trips">{{ trip.name }}</li>
-	</ul>
-	<p *ngIf="trips.length === 0">No trips yet.</p>
+<section class="trips-container">
+	<h2>{{ isAdmin ? 'All Trips' : 'My Trips' }}</h2>
+
+	<div class="toolbar">
+		<input type="text" placeholder="Search trips..." [(ngModel)]="searchTerm" (ngModelChange)="changeSearchTerm(searchTerm)" />
+		<div class="locations" *ngIf="knownLocations.length" style="display: none;">
+			<span class="label">Locations:</span>
+			<button type="button" class="chip" [class.active]="isLocationSelected(loc)" *ngFor="let loc of knownLocations" (click)="toggleLocation(loc)">{{ loc }}</button>
+			<button type="button" class="chip clear" *ngIf="selectedLocations.length" (click)="clearLocationFilter()">Clear</button>
+		</div>
+		
+	</div>
+
+	<div class="count-summary">Showing {{ filteredTrips.length }} of {{ trips.length }} trips</div>
+
+	<div class="pager-controls">
+		<label>Page Size:
+			<select [(ngModel)]="pageSize" (change)="setPageSizePersisted(pageSize)">
+				<option [value]="5">5</option>
+				<option [value]="10">10</option>
+				<option [value]="20">20</option>
+			</select>
+		</label>
+		<button type="button" (click)="prevPage()" [disabled]="currentPage===0">Prev</button>
+		<span class="page-indicator">{{ currentPage+1 }} / {{ totalPages }}</span>
+		<button type="button" (click)="nextPage()" [disabled]="currentPage>=totalPages-1">Next</button>
+	</div>
+
+	<div class="trips-grid" *ngIf="displayedTrips.length > 0 && !initialLoading; else emptyOrLoading">
+		<div class="trip-card" *ngFor="let trip of displayedTrips">
+			<div *ngIf="editingTripId !== trip.id; else inlineEdit">
+				<h3>{{ trip.name }}</h3>
+				<p class="dates">Date: {{ trip.startDate }} → {{ trip.endDate }}</p>
+				<p class="location">Location: {{ trip.location }}</p>
+				<div class="actions">
+					<button (click)="viewDetails(trip)">Details</button>
+					<button *ngIf="isAdmin" (click)="editTrip(trip)" class="icon-btn" aria-label="Edit Trip">✎</button>
+					<button *ngIf="isAdmin" (click)="deleteTrip(trip)" class="icon-btn delete" aria-label="Delete Trip">🗑</button>
+				</div>
+			</div>
+			<ng-template #inlineEdit>
+				<form class="inline-edit" (ngSubmit)="saveInlineEdit(trip)">
+					<div class="grid">
+						<label>
+							<span>Name *</span>
+							<input type="text" [(ngModel)]="inlineEditTrip!.name" name="editName" required />
+						</label>
+						<label>
+							<span>Location *</span>
+							<input type="text" [(ngModel)]="inlineEditTrip!.location" name="editLocation" required />
+						</label>
+						<label>
+							<span>Start</span>
+							<input type="date" [(ngModel)]="inlineEditTrip!.startDate" name="editStart" />
+						</label>
+						<label>
+							<span>End</span>
+							<input type="date" [(ngModel)]="inlineEditTrip!.endDate" name="editEnd" />
+						</label>
+						<label class="full">
+							<span>Assigned</span>
+							<input type="text" [(ngModel)]="inlineEditTrip!.assignedToText" name="editAssigned" />
+							<div class="assigned-chips" *ngIf="inlineEditTrip!.assignedToText">
+								<button type="button" class="chip removable" *ngFor="let e of inlineEditAssignedEmails" (click)="removeAssignedEmail(e,false)">{{ e }} ✕</button>
+							</div>
+						</label>
+					</div>
+					<div class="actions inline">
+						<button type="submit">Save</button>
+						<button type="button" (click)="cancelInlineEdit()">Cancel</button>
+					</div>
+				</form>
+			</ng-template>
+		</div>
+	</div>
+
+	<ng-template #emptyOrLoading>
+		<div *ngIf="initialLoading" class="trips-grid skeletons">
+			<div class="trip-card skeleton" *ngFor="let sk of [1,2,3,4,5]">
+				<div class="line title"></div>
+				<div class="line small"></div>
+				<div class="line small"></div>
+				<div class="line actions"></div>
+			</div>
+		</div>
+		<p class="empty" *ngIf="!initialLoading">No trips {{ isAdmin ? 'available' : 'assigned' }}.</p>
+	</ng-template>
+	<button *ngIf="isAdmin" class="fab" (click)="quickAddTrip()" aria-label="Add Trip">＋</button>
 </section>
+
+<div class="loading-overlay" *ngIf="loadingAction">
+	<div class="loader">
+		<div class="spinner"></div>
+		<span>{{ loadingAction }}</span>
+	</div>
+</div>
+
+<div *ngIf="showAddDialog" class="dialog-backdrop" (click)="onBackdropClick($event)">
+	<div class="dialog-panel" role="dialog" aria-modal="true" aria-label="Add Trip" (click)="$event.stopPropagation()">
+		<h3>Add Trip</h3>
+		<div *ngIf="validationErrors.length" class="errors">
+			<ul>
+				<li *ngFor="let err of validationErrors">{{ err }}</li>
+			</ul>
+		</div>
+		<form (ngSubmit)="saveNewTrip()" #tripForm="ngForm">
+			<div class="grid">
+				<label>
+					<span>Name *</span>
+					<input #newTripNameInput type="text" [(ngModel)]="newTrip.name" name="name" required />
+				</label>
+				<label>
+					<span>Location *</span>
+					<input type="text" [(ngModel)]="newTrip.location" name="location" required />
+				</label>
+				<label>
+					<span>Start Date</span>
+					<input type="date" [(ngModel)]="newTrip.startDate" name="startDate" />
+				</label>
+				<label>
+					<span>End Date</span>
+					<input type="date" [(ngModel)]="newTrip.endDate" name="endDate" />
+				</label>
+				<label class="full">
+					<span>Assigned Users (comma emails)</span>
+					<input type="text" [(ngModel)]="newTrip.assignedToText" name="assignedTo" placeholder="user1@x.com, user2@x.com" />
+					<div class="suggestions" *ngIf="knownEmails.length">
+						<span class="label">Suggestions:</span>
+						<button type="button" class="chip" *ngFor="let e of knownEmails" (click)="addSuggestedEmail(e)">{{ e }}</button>
+					</div>
+					<div class="assigned-chips" *ngIf="newTrip.assignedToText">
+						<button type="button" class="chip removable" *ngFor="let e of newTripAssignedEmails" (click)="removeAssignedEmail(e,true)">{{ e }} ✕</button>
+					</div>
+				</label>
+			</div>
+			<div class="dialog-actions">
+				<button type="button" (click)="cancelAdd()">Cancel</button>
+				<button type="submit">Save</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="toast" *ngIf="toastMessage">{{ toastMessage }}</div>

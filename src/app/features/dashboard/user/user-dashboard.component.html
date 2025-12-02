@@ -1,5 +1,14 @@
 <section class="dashboard">
 	<h2>User Dashboard</h2>
-	<app-futuristic-card title="Your Trips">Coming soon…</app-futuristic-card>
-	<app-futuristic-card title="Recent Expenses">Coming soon…</app-futuristic-card>
+	<div class="grid">
+		<app-futuristic-card title="My Trips">
+			<a routerLink="/trips">Go to My Trips</a>
+		</app-futuristic-card>
+		<app-futuristic-card title="Add Expense">
+			<a routerLink="/expenses/add">Add an Expense</a>
+		</app-futuristic-card>
+		<app-futuristic-card title="My Profile">
+			<a routerLink="/profile">View Profile</a>
+		</app-futuristic-card>
+	</div>
 </section>

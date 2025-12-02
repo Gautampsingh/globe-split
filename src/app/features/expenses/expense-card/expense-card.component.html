@@ -1,24 +1,18 @@
 <div class="expense-card">
-  <div class="row header">
-    <div class="cell label">Title</div>
-    <div class="cell value"><strong>{{ title }}</strong></div>
-  </div>
-  <div class="row">
-    <div class="cell label">Amount</div>
-    <div class="cell value">
-      {{ amount | currencyFormat:currency }}
-      <span *ngIf="currency">
-        <img *ngIf="flagUrl(currency) as url" [src]="url" [alt]="currency + ' flag'" width="24" height="18" />
-        {{ currency }}
-      </span>
-    </div>
-  </div>
-  <div class="row" *ngIf="description">
-    <div class="cell label">Description</div>
-    <div class="cell value">{{ description }}</div>
-  </div>
-  <div class="row" *ngIf="date">
-    <div class="cell label">Date</div>
-    <div class="cell value">{{ date }}</div>
-  </div>
+	<h3>{{ title }}</h3>
+	<div class="amount-row">
+		<strong>{{ amount | currencyFormat:currency }}</strong>
+		<span *ngIf="currency" class="currency">
+			<img *ngIf="flagUrl(currency) as url" [src]="url" [alt]="currency + ' flag'" class="flag" />
+			{{ currency }}
+		</span>
+	</div>
+	<div class="meta" *ngIf="date">
+		<span>Date: {{ date }}</span>
+	</div>
+	<div class="desc" *ngIf="description">{{ description }}</div>
+	<div class="actions">
+		<button type="button" class="icon-btn" (click)="onEdit()" aria-label="Edit Expense">✎</button>
+		<button type="button" class="icon-btn delete" (click)="onDelete()" aria-label="Delete Expense">🗑</button>
+	</div>
 </div>

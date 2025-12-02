@@ -1,4 +1,38 @@
-<section>
-	<h2>Trip Details</h2>
-	<p>Details will appear here.</p>
+<section class="details">
+	<ng-container *ngIf="!notFound && trip; else notFoundTpl">
+		<header>
+			<h2>{{ trip?.name }}</h2>
+			<a routerLink="/trips" class="back-link">← Back to trips</a>
+		</header>
+		<div class="info">
+			<div>
+				<label>Location</label>
+				<div class="value">{{ trip?.location }}</div>
+			</div>
+			<div>
+				<label>Start Date</label>
+				<div class="value">{{ trip?.startDate }}</div>
+			</div>
+			<div>
+				<label>End Date</label>
+				<div class="value">{{ trip?.endDate }}</div>
+			</div>
+			<div>
+				<label>Assigned Users</label>
+				<div class="value chips">
+					<span class="chip" *ngFor="let email of trip?.assignedTo">{{ email }}</span>
+				</div>
+			</div>
+		</div>
+		<div class="actions">
+			<button (click)="back()">Back</button>
+		</div>
+	</ng-container>
+
+	<ng-template #notFoundTpl>
+		<div class="not-found">
+			<h3>Trip not found</h3>
+			<a routerLink="/trips" class="back-link">← Back to trips</a>
+		</div>
+	</ng-template>
 </section>

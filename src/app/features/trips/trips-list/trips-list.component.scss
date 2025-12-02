@@ -1,0 +1,379 @@
+ .trips-container {
+     padding: 1rem 1.25rem 3.5rem;
+}
+ h2 {
+     margin: 0 0 1rem;
+     font-size: 1.5rem;
+}
+ .toolbar {
+     display: flex;
+     flex-wrap: wrap;
+     gap: 0.75rem 1rem;
+     align-items: center;
+     margin-bottom: 1rem;
+}
+ .locations {
+     display:flex;
+     gap:0.4rem;
+     flex-wrap:wrap;
+     align-items:center;
+     flex-wrap:wrap;
+     align-items:center;
+     .label {
+         font-size:0.6rem;
+         opacity:0.6;
+    }
+     .chip {
+         background: linear-gradient(90deg,var(--accent),var(--accent2));
+         border: 1px solid #2a3442;
+    }
+}
+ .chip.active {
+     background: linear-gradient(90deg, #c10565, var(--accent2)) !important;
+     border-color:#3d5a75 !important;
+}
+ .chip.clear {
+     background:#3d2a2a;
+     border-color:#5f3131;
+}
+ .chip.clear:hover {
+     background:#5f3131;
+}
+ .toolbar input[type=text] {
+     flex: 1 1 220px;
+     background: linear-gradient(90deg,var(--accent),var(--accent2));
+     border: 1px solid #31485f;
+     padding: 0.5rem 0.6rem;
+     border-radius: 6px;
+     // color: #e3eef7;
+     font-size: 0.8rem;
+}
+ .pager-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    margin-bottom: .6rem;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+ .pager-controls select, .pager-controls button {
+     background: linear-gradient(90deg,var(--accent),var(--accent2));
+     border: 1px solid #31485f;
+     // color: #e3eef7;
+     padding: 0.35rem 0.6rem;
+     border-radius: 6px;
+     font-size: 0.7rem;
+}
+ .pager-controls button[disabled] {
+     opacity: 0.4;
+     cursor: not-allowed;
+}
+ .page-indicator {
+     font-size: 0.7rem;
+     opacity: 0.75;
+     position: relative;
+     top: -5px;
+}
+ .trips-grid {
+     display: grid;
+     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+     gap: 1rem;
+}
+ .count-summary {
+     margin: 0.5rem 0 0.75rem;
+     font-size: 0.85rem;
+     color: #555;
+}
+ .skeletons .trip-card.skeleton {
+     background: #fff;
+     border: 1px solid #e0e0e0;
+     border-radius: 8px;
+     padding: 0.75rem 0.9rem;
+     position: relative;
+}
+ .skeletons .line {
+     height: 14px;
+     background: linear-gradient(90deg, #eee 25%, #f5f5f5 37%, #eee 63%);
+     background-size: 400% 100%;
+     border-radius: 6px;
+     margin-bottom: 10px;
+     animation: shimmer 1.4s ease-in-out infinite;
+}
+ .skeletons .line.title {
+     height: 18px;
+     width: 70%;
+}
+ .skeletons .line.small {
+     width: 50%;
+}
+ .skeletons .line.actions {
+     width: 35%;
+     height: 16px;
+     margin-top: 6px;
+}
+ @keyframes shimmer {
+     0% {
+         background-position: 100% 0;
+    }
+     100% {
+         background-position: 0 0;
+    }
+}
+ .trip-card {
+     background: linear-gradient(90deg,var(--accent),var(--accent2));
+     border: 1px solid #2a3442;
+     border-radius: 12px;
+     padding: 0.9rem 0.95rem 1.1rem;
+     display: flex;
+     flex-direction: column;
+     gap: 0.35rem;
+     box-shadow: 0 4px 10px -2px rgba(0,0,0,0.4);
+     transition: border-color .25s, transform .25s;
+}
+ .trip-card:hover {
+     border-color: #3d5a75;
+     transform: translateY(-3px);
+}
+ .trip-card h3 {
+     margin: 0 0 0.25rem;
+     font-size: 1.1rem;
+     font-weight: 600;
+}
+ .dates, .location {
+     margin: 0;
+     font-size: 0.8rem;
+     opacity: 0.85;
+}
+ .actions {
+     margin-top: 0.4rem;
+     display: flex;
+     gap: 0.4rem;
+     flex-wrap: wrap;
+}
+ .actions.inline {
+     justify-content: flex-end;
+}
+ button {
+     background: #1e2a38;
+     color: #e3eef7;
+     border: 1px solid #31485f;
+     padding: 0.4rem 0.75rem;
+     border-radius: 6px;
+     cursor: pointer;
+     font-size: 0.75rem;
+     letter-spacing: 0.5px;
+}
+ button:hover {
+     background: #2a3a4d;
+}
+ .icon-btn {
+     padding: 0.35rem 0.55rem;
+     font-size: 0.7rem;
+     line-height: 1;
+}
+ .icon-btn.delete {
+     border-color: #5f3131;
+}
+ .icon-btn.delete:hover {
+     background: #3d2a2a;
+}
+ .inline-edit .grid {
+     margin-bottom: 0.5rem;
+}
+ .inline-edit input {
+     background:#1e2a38;
+     border:1px solid #31485f;
+     padding:0.4rem 0.5rem;
+     border-radius:6px;
+     color:#e3eef7;
+     font-size:0.7rem;
+}
+ .inline-edit label span {
+     font-size:0.6rem;
+     opacity:0.7;
+}
+ .inline-edit .assigned-chips {
+     margin-top:0.3rem;
+     display:flex;
+     gap:0.3rem;
+     flex-wrap:wrap;
+}
+ .chip.removable {
+     background:#2a3a4d;
+}
+ .chip.removable:hover {
+     background:#395068;
+}
+ .assigned-chips .chip {
+     cursor:pointer;
+}
+ .toast {
+     position: fixed;
+     bottom: 0.9rem;
+     left: 50%;
+     transform: translateX(-50%);
+     background: #1f4e74;
+     color: #fff;
+     padding: 0.55rem 0.9rem;
+     border-radius: 8px;
+     font-size: 0.75rem;
+     box-shadow: 0 4px 16px -4px rgba(0,0,0,0.5);
+     animation: fadeIn .25s ease;
+}
+ .loading-overlay {
+     position: fixed;
+     inset: 0;
+     background: rgba(0,0,0,0.55);
+     display:flex;
+     align-items:center;
+     justify-content:center;
+     z-index: 1200;
+}
+ .loader {
+     display:flex;
+     flex-direction:column;
+     align-items:center;
+     gap:0.6rem;
+}
+ .spinner {
+     width:38px;
+     height:38px;
+     border:4px solid #3c7fa7;
+     border-top-color:#1f4e74;
+     border-radius:50%;
+     animation: spin 0.8s linear infinite;
+}
+ @keyframes spin {
+     to {
+         transform: rotate(360deg);
+    }
+}
+ .empty {
+     opacity: 0.7;
+     font-style: italic;
+}
+ .fab {
+     position: fixed;
+     right: 1.5rem;
+     bottom: 1.5rem;
+     width: 52px;
+     height: 52px;
+     border-radius: 50%;
+     background: linear-gradient(135deg,#1f4e74,#3c7fa7);
+     color: #fff;
+     font-size: 1.4rem;
+     line-height: 1;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     border: none;
+     box-shadow: 0 6px 18px -4px rgba(0,0,0,0.5);
+     cursor: pointer;
+}
+ .fab:hover {
+     filter: brightness(1.15);
+}
+ .dialog-backdrop {
+     position: fixed;
+     inset: 0;
+     background: rgba(0,0,0,0.55);
+     display: flex;
+     align-items: flex-start;
+     justify-content: center;
+     padding-top: 5vh;
+     z-index: 1000;
+}
+ .dialog-panel {
+     background: linear-gradient(90deg,var(--accent),var(--accent2));
+     border: 1px solid #2a3442;
+     border-radius: 14px;
+     padding: 1.1rem 1.2rem 1.2rem;
+     width: min(520px, 94vw);
+     box-shadow: 0 8px 28px -6px rgba(0,0,0,0.6);
+     animation: fadeIn .25s ease;
+}
+ .dialog-panel h3 {
+     margin: 0 0 0.85rem;
+     font-size: 1.25rem;
+}
+ .errors {
+     background: #2a1e1e;
+     border: 1px solid #5f3131;
+     padding: 0.6rem 0.75rem;
+     border-radius: 8px;
+     margin-bottom: 0.75rem;
+}
+ .errors ul {
+     margin: 0;
+     padding-left: 1.1rem;
+}
+ .errors li {
+     font-size: 0.7rem;
+     line-height: 1.2;
+}
+ form label {
+     display: flex;
+     flex-direction: column;
+     gap: 0.3rem;
+     font-size: 0.75rem;
+}
+ form input {
+     background: #1e2a38;
+     border: 1px solid #31485f;
+     padding: 0.5rem 0.55rem;
+     border-radius: 6px;
+     color: #e3eef7;
+     font-size: 0.8rem;
+}
+ .suggestions {
+     margin-top: 0.35rem;
+     display: flex;
+     gap: 0.35rem;
+     flex-wrap: wrap;
+     align-items: center;
+}
+ .suggestions .label {
+     font-size: 0.6rem;
+     opacity: 0.6;
+     margin-right: 0.25rem;
+}
+ .suggestions .chip {
+     background: #1e2a38;
+     border: 1px solid #31485f;
+     color: #e3eef7;
+     padding: 0.25rem 0.45rem;
+     border-radius: 999px;
+     font-size: 0.6rem;
+     cursor: pointer;
+}
+ .suggestions .chip:hover {
+     background:#2a3a4d;
+}
+ .grid {
+     display: grid;
+     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+     gap: 0.75rem 0.9rem;
+}
+ .grid .full {
+     grid-column: 1 / -1;
+}
+ .dialog-actions {
+     margin-top: 1rem;
+     display: flex;
+     justify-content: flex-end;
+     gap: 0.6rem;
+}
+ .dialog-actions button {
+     font-size: 0.75rem;
+}
+ @keyframes fadeIn {
+     from {
+         opacity: 0;
+         transform: translateY(-8px);
+    }
+     to {
+         opacity: 1;
+         transform: translateY(0);
+    }
+}
+ 

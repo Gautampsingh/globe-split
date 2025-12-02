@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 	styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-    email = '';
+  email = '';
   password = '';
 
   constructor(private router: Router) {}
@@ -22,7 +22,7 @@ export class LoginComponent {
       return;
     }
 
-    const isAdmin = this.email === 'admin@futura.com';
+    const isAdmin = this.email === 'goutampsingh@gmail.com' && this.password === 'admin123';
 
     localStorage.setItem('futura_user', JSON.stringify({
       email: this.email,

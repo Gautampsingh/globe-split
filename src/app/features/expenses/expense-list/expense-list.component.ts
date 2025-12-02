@@ -14,7 +14,15 @@ import { FormsModule } from '@angular/forms';
 	styleUrls: ['./expense-list.component.scss']
 })
 export class ExpenseListComponent {
-	constructor(private expensesService: ExpensesService) {}
+	constructor(private expensesService: ExpensesService) {
+		// Track initial loading to show skeletons briefly and cache list
+		this.expensesService.getExpenses$().subscribe(list => {
+			this.updateCache(list || []);
+			if (this.initialLoading) {
+				setTimeout(() => this.initialLoading = false, 150);
+			}
+		});
+	}
 	get expenses$() { return this.expensesService.getExpenses$(); }
 
 	conversionEnabled = false;
@@ -75,5 +83,100 @@ export class ExpenseListComponent {
 
 	getDisplayAmount(e: { amount: number; currency?: string }): number {
 		return this.convertAmount(e.amount, e.currency || 'USD', this.targetCurrency);
+	}
+
+	// Editing state
+	editingId: string | null = null;
+	editModel: { title: string; amount: number; currency: string; description?: string; date?: string } | null = null;
+	initialLoading = true;
+	toastMessage = '';
+	private toastTimer: any;
+	loadingAction: string | null = null;
+	confirmDeleteId: string | null = null;
+	confirmDeleteTitle = '';
+
+	// Pagination
+	pageSize = 10;
+	currentPage = 0;
+	private cachedExpenses: any[] = [];
+
+	private updateCache(list: any[]) {
+		this.cachedExpenses = list;
+		this.ensurePageInRange();
+	}
+
+	get totalExpenses(): number { return this.cachedExpenses.length; }
+	get displayedExpenses(): any[] {
+		const start = this.currentPage * this.pageSize;
+		return this.cachedExpenses.slice(start, start + this.pageSize);
+	}
+	get totalPages(): number { return Math.max(1, Math.ceil(this.totalExpenses / this.pageSize)); }
+
+	ensurePageInRange() {
+		if (this.currentPage >= this.totalPages) this.currentPage = this.totalPages - 1;
+		if (this.currentPage < 0) this.currentPage = 0;
+	}
+	nextPage() { if (this.currentPage < this.totalPages - 1) this.currentPage++; }
+	prevPage() { if (this.currentPage > 0) this.currentPage--; }
+	changePageSize(size: number) { this.pageSize = size; this.currentPage = 0; this.ensurePageInRange(); }
+
+	startEdit(exp: any) {
+		this.loadingAction = null;
+		this.editingId = exp.id;
+		this.editModel = {
+			title: exp.title,
+			amount: exp.amount,
+			currency: exp.currency || 'USD',
+			description: exp.description,
+			date: exp.date
+		};
+	}
+
+	cancelEdit() {
+		this.editingId = null;
+		this.editModel = null;
+	}
+
+	saveEdit() {
+		if (!this.editingId || !this.editModel) return;
+		const { title, amount, currency, description, date } = this.editModel;
+		if (!title.trim()) return;
+		this.loadingAction = 'Saving expense...';
+		setTimeout(() => {
+			this.expensesService.updateExpense({ id: this.editingId!, title, amount, currency, description, date });
+			this.cancelEdit();
+			this.loadingAction = null;
+			this.showToast('Expense updated');
+		}, 300);
+	}
+
+	requestDelete(id: string, title: string) {
+		this.confirmDeleteId = id;
+		this.confirmDeleteTitle = title;
+	}
+
+	confirmDelete() {
+		if (!this.confirmDeleteId) return;
+		const id = this.confirmDeleteId;
+		this.loadingAction = 'Deleting expense...';
+		setTimeout(() => {
+			this.expensesService.deleteExpense(id);
+			if (this.editingId === id) this.cancelEdit();
+			this.loadingAction = null;
+			this.showToast('Expense deleted');
+			this.confirmDeleteId = null;
+			this.confirmDeleteTitle = '';
+		}, 250);
+	}
+
+	cancelDelete() {
+		this.confirmDeleteId = null;
+		this.confirmDeleteTitle = '';
+	}
+
+	showToast(msg: string) {
+		this.toastMessage = msg;
+		clearTimeout(this.toastTimer);
+		this.toastTimer = setTimeout(() => this.toastMessage = '', 2500);
 	}
 }
