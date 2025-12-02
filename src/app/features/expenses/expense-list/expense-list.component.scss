@@ -9,3 +9,104 @@
         height: 40px;
     }
 }
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.count-summary {
+    margin: 0.5rem 0 0.5rem;
+    font-size: 0.7rem;
+    color: #555;
+}
+
+.pager-controls {
+    display:flex;
+    flex-wrap:wrap;
+    gap:0.5rem;
+    margin-bottom:0.6rem;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+.pager-controls select, .pager-controls button {
+    background: linear-gradient(90deg,var(--accent),var(--accent2));
+    border: 1px solid #31485f;
+    padding: 0.35rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.65rem;
+}
+.pager-controls button[disabled] { opacity:0.4; cursor:not-allowed; }
+.page-indicator { font-size:0.65rem; opacity:0.75; position:relative; top:-3px; }
+
+.expense-card.edit-mode form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(140px,1fr));
+    gap: 0.65rem;
+}
+.expense-card.edit-mode label { display:flex; flex-direction:column; gap:0.3rem; font-size:0.65rem; }
+.expense-card.edit-mode input, .expense-card.edit-mode select, .expense-card.edit-mode textarea {
+    background:#1e2a38;
+    border:1px solid #31485f;
+    color:#e3eef7;
+    padding:0.4rem 0.5rem;
+    border-radius:6px;
+    font-size:0.7rem;
+}
+.expense-card.edit-mode textarea { resize: vertical; }
+.expense-card.edit-mode .actions { grid-column:1 / -1; justify-content:flex-end; }
+
+.skeletons .expense-card.skeleton {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 0.9rem 0.95rem 1.1rem;
+    position: relative;
+}
+.skeletons .line { height:14px; background:linear-gradient(90deg,#eee 25%,#f5f5f5 37%,#eee 63%); background-size:400% 100%; border-radius:6px; margin-bottom:10px; animation: shimmer 1.4s ease-in-out infinite; }
+.skeletons .line.title { height:18px; width:70%; }
+.skeletons .line.small { width:50%; }
+.skeletons .line.actions { width:35%; height:16px; margin-top:6px; }
+@keyframes shimmer { 0% { background-position:100% 0; } 100% { background-position:0 0; } }
+
+.loading-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.55); display:flex; align-items:center; justify-content:center; z-index:1200; }
+.loader { display:flex; flex-direction:column; align-items:center; gap:0.6rem; }
+.spinner { width:38px; height:38px; border:4px solid #3c7fa7; border-top-color:#1f4e74; border-radius:50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+
+.dialog-backdrop { position:fixed; inset:0; background:rgba(0,0,0,0.55); display:flex; align-items:flex-start; justify-content:center; padding-top:10vh; z-index:1000; }
+.dialog-panel { background:linear-gradient(90deg,var(--accent),var(--accent2)); border:1px solid #2a3442; border-radius:14px; padding:1rem 1.1rem 1.1rem; width:min(420px,92vw); box-shadow:0 8px 28px -6px rgba(0,0,0,0.6); animation: fadeIn .25s ease; }
+.dialog-panel h3 { margin:0 0 0.6rem; font-size:1.1rem; }
+.dialog-panel p { margin:0 0 0.9rem; font-size:0.75rem; line-height:1.3; }
+.dialog-actions { display:flex; justify-content:flex-end; gap:0.5rem; }
+
+.toast { position:fixed; bottom:0.9rem; left:50%; transform:translateX(-50%); background:#1f4e74; color:#fff; padding:0.55rem 0.9rem; border-radius:8px; font-size:0.75rem; box-shadow:0 4px 16px -4px rgba(0,0,0,0.5); animation: fadeIn .25s ease; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+
+.expense-card.edit-mode {
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border: 1px solid #2a3442;
+    border-radius: 12px;
+    padding: .9rem .95rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: .35rem;
+    box-shadow: 0 4px 10px -2px #0006;
+    transition: border-color .25s, transform .25s;
+    .actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.3rem;
+    }
+    button {
+        background: #1e2a38;
+        color: #e3eef7;
+        border: 1px solid #31485f;
+        padding: .4rem .75rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: .75rem;
+        letter-spacing: .5px
+    }
+}

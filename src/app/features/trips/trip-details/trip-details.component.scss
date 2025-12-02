@@ -1,0 +1,72 @@
+ .details {
+  padding: 1rem 1.25rem;
+ }
+
+ header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+ }
+
+ h2 {
+  margin: 0;
+  font-size: 1.6rem;
+ }
+
+ .back-link {
+  font-size: 0.85rem;
+  opacity: 0.8;
+ }
+
+ .info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  background: linear-gradient(90deg,var(--accent),var(--accent2));
+  border: 1px solid #2a3442;
+  border-radius: 12px;
+  padding: 1rem;
+ }
+
+ label {
+  display: block;
+  font-size: 0.75rem;
+  opacity: 0.75;
+  margin-bottom: 0.25rem;
+ }
+
+ .value {
+  font-size: 0.95rem;
+ }
+
+ .chips {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+ }
+
+ .chip {
+  background: #1e2a38;
+  border: 1px solid #31485f;
+  color: #e3eef7;
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+ }
+
+ .actions {
+  margin-top: 1rem;
+ }
+
+ button {
+  background: #1e2a38;
+  color: #e3eef7;
+  border: 1px solid #31485f;
+  padding: 0.45rem 0.85rem;
+  border-radius: 6px;
+  cursor: pointer;
+ }
+
+ button:hover { background: #2a3a4d; }

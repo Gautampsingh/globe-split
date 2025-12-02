@@ -41,6 +41,20 @@ export class ExpensesService {
 		this.expenses$.next([...this.expenses]);
 	}
 
+	updateExpense(update: ExpenseSummary): void {
+		const idx = this.expenses.findIndex(e => e.id === update.id);
+		if (idx === -1) return;
+		this.expenses[idx] = { ...update, date: update.date ? this.normalizeDateInput(update.date) : update.date };
+		this.persist();
+		this.expenses$.next([...this.expenses]);
+	}
+
+	deleteExpense(id: string): void {
+		this.expenses = this.expenses.filter(e => e.id !== id);
+		this.persist();
+		this.expenses$.next([...this.expenses]);
+	}
+
 	private normalizeDateInput(input: string): string {
 		// Accepts ISO yyyy-mm-dd or any parsable date string and returns dd-MM-yyyy
 		const d = new Date(input);

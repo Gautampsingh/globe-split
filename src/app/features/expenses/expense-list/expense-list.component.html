@@ -13,13 +13,89 @@
 			</button>
 		</div>
 	</div>
-	<div class="grid">
-		<app-expense-card *ngFor="let e of (expenses$ | async)"
-			[title]="e.title"
-			[amount]="conversionEnabled ? getDisplayAmount(e) : e.amount"
-			[currency]="conversionEnabled ? targetCurrency : (e.currency || 'USD')"
-			[description]="e.description"
-			[date]="e.date"></app-expense-card>
+	<div class="count-summary" *ngIf="!initialLoading">Showing {{ totalExpenses ? (displayedExpenses.length + (currentPage * pageSize)) : 0 }} of {{ totalExpenses }} expenses</div>
+	<div class="pager-controls" *ngIf="!initialLoading && totalExpenses > 0">
+		<label>Page Size:
+			<select [(ngModel)]="pageSize" (change)="changePageSize(pageSize)">
+				<option [value]="5">5</option>
+				<option [value]="10">10</option>
+				<option [value]="20">20</option>
+			</select>
+		</label>
+		<button type="button" (click)="prevPage()" [disabled]="currentPage===0">Prev</button>
+		<span class="page-indicator">{{ currentPage+1 }} / {{ totalPages }}</span>
+		<button type="button" (click)="nextPage()" [disabled]="currentPage>=totalPages-1">Next</button>
 	</div>
+	<div class="grid" *ngIf="!initialLoading; else expenseSkeletons">
+		<ng-container *ngFor="let e of displayedExpenses">
+			<div *ngIf="editingId === e.id; else viewCard" class="expense-card edit-mode">
+				<h3>Edit Expense</h3>
+				<form (ngSubmit)="saveEdit()">
+					<label>Title*
+						<input type="text" [(ngModel)]="editModel!.title" name="editTitle" required />
+					</label>
+					<label>Amount*
+						<input type="number" step="0.01" [(ngModel)]="editModel!.amount" name="editAmount" required />
+					</label>
+					<label>Currency*
+						<select [(ngModel)]="editModel!.currency" name="editCurrency">
+							<option *ngFor="let c of currencyCodes" [value]="c">{{ c }}</option>
+						</select>
+					</label>
+					<label>Date
+						<input type="text" [(ngModel)]="editModel!.date" name="editDate" placeholder="dd-MM-yyyy" />
+					</label>
+					<label class="full">Description
+						<textarea rows="2" [(ngModel)]="editModel!.description" name="editDescription"></textarea>
+					</label>
+					<div class="actions">
+						<button type="submit">Save</button>
+						<button type="button" (click)="cancelEdit()">Cancel</button>
+					</div>
+				</form>
+			</div>
+			<ng-template #viewCard>
+				<app-expense-card
+					[id]="e.id"
+					[title]="e.title"
+					[amount]="conversionEnabled ? getDisplayAmount(e) : e.amount"
+					[currency]="conversionEnabled ? targetCurrency : (e.currency || 'USD')"
+					[description]="e.description"
+					[date]="e.date"
+					(edit)="startEdit(e)"
+					(delete)="requestDelete(e.id, e.title)"></app-expense-card>
+			</ng-template>
+		</ng-container>
+	</div>
+	<ng-template #expenseSkeletons>
+		<div class="grid skeletons">
+			<div class="expense-card skeleton" *ngFor="let s of [1,2,3,4,5]">
+				<div class="line title"></div>
+				<div class="line small"></div>
+				<div class="line small"></div>
+				<div class="line actions"></div>
+			</div>
+		</div>
+	</ng-template>
 	<p *ngIf="(expenses$ | async)?.length === 0">No expenses recorded.</p>
 </section>
+
+<div class="loading-overlay" *ngIf="loadingAction">
+	<div class="loader">
+		<div class="spinner"></div>
+		<span>{{ loadingAction }}</span>
+	</div>
+</div>
+
+<div class="dialog-backdrop" *ngIf="confirmDeleteId" (click)="cancelDelete()">
+	<div class="dialog-panel" (click)="$event.stopPropagation()">
+		<h3>Delete Expense</h3>
+		<p>Are you sure you want to delete "{{ confirmDeleteTitle }}"?</p>
+		<div class="dialog-actions">
+			<button type="button" (click)="cancelDelete()">Cancel</button>
+			<button type="button" class="icon-btn delete" (click)="confirmDelete()">Delete</button>
+		</div>
+	</div>
+</div>
+
+<div class="toast" *ngIf="toastMessage">{{ toastMessage }}</div>

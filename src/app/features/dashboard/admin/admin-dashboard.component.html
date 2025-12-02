@@ -1,5 +1,17 @@
 <section class="dashboard">
 	<h2>Admin Dashboard</h2>
-	<app-futuristic-card title="Pending Access Requests">Coming soon…</app-futuristic-card>
-	<app-futuristic-card title="Manage Users">Coming soon…</app-futuristic-card>
+	<div class="grid">
+		<app-futuristic-card title="Manage Users">
+			<a routerLink="/admin/users">Go to Users</a>
+		</app-futuristic-card>
+		<app-futuristic-card title="Manage Trips">
+			<a routerLink="/trips">Go to Trips</a>
+		</app-futuristic-card>
+		<app-futuristic-card title="View All Expenses">
+			<a routerLink="/expenses">Go to Expenses</a>
+		</app-futuristic-card>
+		<app-futuristic-card title="Grant Trip Access">
+			<a routerLink="/trips/access">Manage Access</a>
+		</app-futuristic-card>
+	</div>
 </section>

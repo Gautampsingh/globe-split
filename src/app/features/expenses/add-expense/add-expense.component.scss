@@ -55,3 +55,20 @@ input, select, textarea, button {
 		flex-wrap: nowrap;
 	}
 }
+
+.add-expense{
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border: 1px solid #2a3442;
+    border-radius: 12px;
+    padding: .9rem .95rem 1.1rem;
+    button {
+        background: #1e2a38;
+        color: #e3eef7;
+        border: 1px solid #31485f;
+        padding: .4rem .75rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: .75rem;
+        letter-spacing: .5px;
+    }
+}
